@@ -3,31 +3,66 @@
 # Create necessary directories
 mkdir -p logs
 mkdir -p web
-mkdir -p admin
 mkdir -p config
+mkdir -p schedule
 
-# Install Node.js dependencies
-cd admin
-npm install express body-parser express-basic-auth
+# Install Node.js dependencies for schedule receiver
+cd schedule
+npm install
 cd ..
 
-# Copy the default Icecast configuration
-cp /nix/store/*icecast*/etc/icecast.xml icecast.xml
+# Install Icecast if not already installed
+if ! command -v icecast &> /dev/null; then
+    echo "Installing Icecast..."
+    nix-env -iA nixpkgs.icecast
+fi
 
-# Modify the configuration to work with Replit
-sed -i 's/<port>8000<\/port>/<port>${PORT:-8000}<\/port>/' icecast.xml
-sed -i 's/<admin-user>admin<\/admin-user>/<admin-user>${ADMIN_USER:-admin}<\/admin-user>/' icecast.xml
-sed -i 's/<source-password>test<\/source-password>/<source-password>${SOURCE_PASSWORD:-test}<\/source-password>/' icecast.xml
-sed -i 's/<relay-password>test<\/relay-password>/<relay-password>${RELAY_PASSWORD:-test}<\/relay-password>/' icecast.xml
-sed -i 's/<admin-password>test<\/admin-password>/<admin-password>${ADMIN_PASSWORD:-test}<\/admin-password>/' icecast.xml
+# Create icecast.xml if it doesn't exist
+if [ ! -f icecast.xml ]; then
+    echo "Creating icecast.xml configuration..."
+    cat > icecast.xml << 'EOL'
+<?xml version="1.0"?>
+<icecast>
+    <location>Earth</location>
+    <limits>
+        <clients>100</clients>
+        <sources>4</sources>
+        <queue-size>524288</queue-size>
+        <client-timeout>30</client-timeout>
+        <header-timeout>15</header-timeout>
+        <source-timeout>10</source-timeout>
+        <burst-on-connect>1</burst-on-connect>
+        <burst-size>65535</burst-size>
+    </limits>
+    <authentication>
+        <source-password>${SOURCE_PASSWORD:-test}</source-password>
+        <relay-password>${RELAY_PASSWORD:-test}</relay-password>
+    </authentication>
+    <hostname>localhost</hostname>
+    <listen-socket>
+        <port>${PORT:-8000}</port>
+    </listen-socket>
+    <paths>
+        <webroot>web</webroot>
+        <logdir>logs</logdir>
+        <basedir>/usr/share/icecast</basedir>
+    </paths>
+    <logging>
+        <accesslog>access.log</accesslog>
+        <errorlog>error.log</errorlog>
+        <loglevel>3</loglevel>
+    </logging>
+    <security>
+        <chroot>0</chroot>
+    </security>
+</icecast>
+EOL
+fi
 
-# Add admin interface configuration
-sed -i '/<paths>/a \        <admin>admin</admin>' icecast.xml
-sed -i '/<paths>/a \        <webroot>web</webroot>' icecast.xml
-sed -i '/<paths>/a \        <logdir>logs</logdir>' icecast.xml
-
-# Start admin interface in the background
-node admin/index.js &
+# Start schedule receiver in the background
+cd schedule
+node receiver.js &
+cd ..
 
 # Start Icecast2
 icecast -c icecast.xml 

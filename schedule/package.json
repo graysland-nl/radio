@@ -1,0 +1,12 @@
+{
+  "name": "icecast-schedule-receiver",
+  "version": "1.0.0",
+  "description": "Schedule receiver for Icecast server",
+  "main": "receiver.js",
+  "scripts": {
+    "start": "node receiver.js"
+  },
+  "dependencies": {
+    "node-fetch": "^2.6.1"
+  }
+} 
