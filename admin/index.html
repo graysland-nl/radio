@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Icecast2 Admin Interface</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Icecast2 Admin Interface</h1>
+            <div class="server-status">
+                <span id="status-indicator" class="status-offline">●</span>
+                <span id="status-text">Server Status</span>
+            </div>
+        </header>
+
+        <main>
+            <section class="stats-panel">
+                <h2>Server Statistics</h2>
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <h3>Listeners</h3>
+                        <p id="listener-count">0</p>
+                    </div>
+                    <div class="stat-box">
+                        <h3>Source Clients</h3>
+                        <p id="source-count">0</p>
+                    </div>
+                    <div class="stat-box">
+                        <h3>Uptime</h3>
+                        <p id="uptime">00:00:00</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mount-points">
+                <h2>Mount Points</h2>
+                <div id="mount-points-list">
+                    <!-- Mount points will be populated here -->
+                </div>
+            </section>
+
+            <section class="admin-actions">
+                <h2>Admin Actions</h2>
+                <div class="action-buttons">
+                    <button id="kick-all" class="btn">Kick All Listeners</button>
+                    <button id="reload-config" class="btn">Reload Configuration</button>
+                    <button id="shutdown" class="btn btn-danger">Shutdown Server</button>
+                </div>
+            </section>
+
+            <section class="logs">
+                <h2>Server Logs</h2>
+                <div class="log-container">
+                    <pre id="log-content"></pre>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="admin.js"></script>
+</body>
+</html> 
