@@ -1,12 +1,14 @@
 {
   "name": "icecast-schedule-receiver",
   "version": "1.0.0",
-  "description": "Schedule receiver for Icecast server",
+  "description": "Icecast schedule receiver for automated show management",
   "main": "receiver.js",
   "scripts": {
-    "start": "node receiver.js"
+    "start": "node receiver.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "node-fetch": "^2.6.1"
+    "dotenv": "^16.0.3",
+    "node-fetch": "^2.6.9"
   }
 } 
