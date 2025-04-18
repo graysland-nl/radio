@@ -1,0 +1,9 @@
+# Schedule Endpoint Configuration
+SCHEDULE_ENDPOINT=https://graysland.nl/api/schedule
+POLL_INTERVAL=60000
+
+# Icecast Server Configuration
+ICECAST_URL=http://localhost:8000
+ICECAST_ADMIN=admin
+ICECAST_PASSWORD=test
+MOUNT_POINT=/stream 
