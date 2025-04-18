@@ -16,9 +16,10 @@ cp /nix/store/*icecast*/etc/icecast.xml icecast.xml
 
 # Modify the configuration to work with Replit
 sed -i 's/<port>8000<\/port>/<port>${PORT:-8000}<\/port>/' icecast.xml
-sed -i 's/<source-password>hackme<\/source-password>/<source-password>${SOURCE_PASSWORD:-hackme}<\/source-password>/' icecast.xml
-sed -i 's/<relay-password>hackme<\/relay-password>/<relay-password>${RELAY_PASSWORD:-hackme}<\/relay-password>/' icecast.xml
-sed -i 's/<admin-password>hackme<\/admin-password>/<admin-password>${ADMIN_PASSWORD:-hackme}<\/admin-password>/' icecast.xml
+sed -i 's/<admin-user>graysland.admin<\/admin-user>/<admin-user>${ADMIN_USER:-graysland.admin}<\/admin-user>/' icecast.xml
+sed -i 's/<source-password>L0dg3rw3b1@34<\/source-password>/<source-password>${SOURCE_PASSWORD:-L0dg3rw3b1@34}<\/source-password>/' icecast.xml
+sed -i 's/<relay-password>L0dg3rw3b1@34<\/relay-password>/<relay-password>${RELAY_PASSWORD:-L0dg3rw3b1@34}<\/relay-password>/' icecast.xml
+sed -i 's/<admin-password>L0dg3rw3b1@34<\/admin-password>/<admin-password>${ADMIN_PASSWORD:-L0dg3rw3b1@34}<\/admin-password>/' icecast.xml
 
 # Add admin interface configuration
 sed -i '/<paths>/a \        <admin>admin</admin>' icecast.xml
